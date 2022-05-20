@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-var ProducerMutex sync.Mutex // 生产者互斥锁 主要是为了生成全局变量i
+var ProducerMutex sync.Mutex // 生产者互斥锁 主要是为了不重复生成全局变量i
 var i = 0                    // 全局变量i
 
 // Consumer 消费者
