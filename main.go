@@ -9,9 +9,10 @@ import (
 	"time"
 )
 
-var ProducerMutex sync.Mutex
-var i = 0
+var ProducerMutex sync.Mutex // 生产者互斥锁 主要是为了生成全局变量i
+var i = 0                    // 全局变量i
 
+// Consumer 消费者
 func Consumer(num int, ch chan int) {
 	fmt.Println(fmt.Sprintf("%d 开始消费数据", num))
 	for {
@@ -23,6 +24,7 @@ func Consumer(num int, ch chan int) {
 
 }
 
+// Producer 生产者
 func Producer(num int, ch chan int) {
 
 	fmt.Println(fmt.Sprintf("%d 开始生产数据", num))
@@ -45,10 +47,11 @@ func main() {
 		go Producer(i, ch)
 		go Consumer(i, ch)
 
-	}
+	} // 三个消费者三个生产者
 
 	defer close(ch)
 
+	// 阻塞main函数，ctr + C 退出
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
 	fmt.Printf("quit (%v)\n", <-sig)
