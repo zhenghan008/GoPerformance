@@ -16,8 +16,12 @@ var i = 0                    // 全局变量i
 func Consumer(num int, ch chan int) {
 	fmt.Println(fmt.Sprintf("%d 开始消费数据", num))
 	for {
+		if n, ok := <-ch; ok {
+			fmt.Println(fmt.Sprintf("由消费者%d消费的%d出队列", num, n))
+		} else {
+			break
+		}
 
-		fmt.Println(fmt.Sprintf("由消费者%d消费的%d出队列", num, <-ch))
 		time.Sleep(10 * time.Microsecond)
 
 	}
